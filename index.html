@@ -18,10 +18,7 @@
             height: 100%;
         } */
 
-        video {
-            display: block;
-        }
-
+       
         #tools_wrap {
             display: flex;
         }
@@ -92,12 +89,21 @@
 
         #camera_area {
             position: relative;
-            width: 70vw;
+            /* width: 70vw;
             height: 70vw;
             border-radius: 50%;
             margin: 0 auto;
             overflow: hidden;
-            background-color: rgb(187, 212, 245);
+            background-color: rgb(187, 212, 245); */
+        }
+
+        #camera_video{
+
+        }
+
+        #camera_view_area{
+            width: 70vw;
+            height: 70vw;
         }
 
         #img_priview_wrap{
@@ -113,7 +119,7 @@
 </head>
 
 <body>
-    4
+    5
     <div id="notice_wrap">
         <p>1.点击开始人脸建档，允许调用摄像头</p>
         <p>2.将人脸置于取景框内</p>
@@ -129,11 +135,13 @@
 
     <div id="camera_area">
         <video id="camera_video" autoplay="" muted="" playsinline="true" webkit-playsinline="true"></video>
+        <div id="camera_view_area"></div>
     </div>
     <div id="img_priview_wrap">
 
     </div>
     <script type='text/javascript'>
+        console.log()
             var localVideo = document.getElementById("camera_video");
             // var localCanvas = document.getElementById("face_area");
             // var context = localCanvas.getContext('2d');
@@ -223,7 +231,6 @@
                             });
                         };
                     }
-
                     localStream = stream;
                     localVideo.srcObject = stream;
                     // localVideo.onplay = poll;
