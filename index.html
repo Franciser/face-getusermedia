@@ -8,26 +8,18 @@
     <title>face-test-2</title>
     <link rel='stylesheet' href=''>
     <style>
-        canvas {
+        #notice_wrap{
+            margin-bottom:10px;
+        }
+        /* canvas {
             display: block;
             position: absolute;
             width: 100%;
             height: 100%;
-        }
+        } */
 
         video {
             display: block;
-            /* position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                width: 100%;
-                height: 100%; */
-            /* min-width: 100%; */
-            /* height: 100%; */
-            width: 70vw;
-            /* height:70vw; */
         }
 
         #tools_wrap {
@@ -48,7 +40,11 @@
             font-size: 14px;
         }
 
-        #stop_camera_button {
+        #open_camera_button:active{
+            background-color: rgb(202, 135, 27);
+        }
+
+        /* #stop_camera_button {
             display: block;
             border: none;
             outline: none;
@@ -88,7 +84,7 @@
             border-radius: 5px;
             margin: 0 auto 50px auto;
             font-size: 14px;
-        }
+        } */
 
 
 
@@ -117,12 +113,18 @@
 </head>
 
 <body>
-    2
+    3
+    <div id="notice_wrap">
+        <p>1.点击开始人脸建档，允许调用摄像头</p>
+        <p>2.将人脸置于取景框内</p>
+        <p>3.等待几秒钟系统会为你创建人脸档案</p>
+    </div>
+    <!-- <div></div> -->
     <div id="tools_wrap">
         <button id="open_camera_button">开始人脸建档</button>
-        <button id="stop_camera_button">停止人脸建档</button>
-        <button id="record_video_button">录制视频</button>
-        <button id="capture_video_button">截图</button>
+        <!-- <button id="stop_camera_button">停止人脸建档</button> -->
+        <!-- <button id="record_video_button">录制视频</button> -->
+        <!-- <button id="capture_video_button">截图</button> -->
     </div>
 
     <div id="camera_area">
