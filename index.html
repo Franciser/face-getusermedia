@@ -106,7 +106,7 @@
             top:50%;
             left:50%;
             transform: translate(-50%,-50%); */
-            width:100vw;
+            /* width:100vw; */
 
         }
 
@@ -125,7 +125,7 @@
 </head>
 
 <body>
-    13
+    14
     <div id="notice_wrap">
         <p>1.点击开始人脸建档，允许调用摄像头</p>
         <p>2.将人脸置于取景框内</p>
@@ -245,9 +245,9 @@
                         localVideo.play();
                         console.log(localVideo.videoWidth, localVideo.videoHeight, document.body.clientWidth)
                         if(localVideo.videoWidth> localVideo.videoHeight){
-                            localVideo.videoHeight.style.height= (document.body.clientWidth*7)/10+'px';
+                            localVideo.style.height= (document.body.clientWidth*7)/10+'px';
                         }else{
-                            localVideo.videoHeight.style.width = (document.body.clientWidth*7)/10+'px';
+                            localVideo.style.width = (document.body.clientWidth*7)/10+'px';
                         }
                     }, 100)
 
