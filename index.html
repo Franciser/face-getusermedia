@@ -12,6 +12,10 @@
             margin:0;
             padding:0;
         }
+        #content_wrap{
+            padding:10px;
+        }
+        
         #notice_wrap{
             margin-bottom:10px;
         }
@@ -106,9 +110,11 @@
 
         #camera_video{
             display: block;
-            top:50%;
-            left:50%;
-            transform: translate(-50%,-50%);
+            /* position: absolute; */
+            /* width:100vw; */
+            /* top:50%; */
+            /* left:50%; */
+            /* transform: translate(-50%,-50%); */
             /* width:100vw; */
 
         }
@@ -128,26 +134,29 @@
 </head>
 
 <body>
-    17
-    <div id="notice_wrap">
-        <p>1.点击开始人脸建档，允许调用摄像头</p>
-        <p>2.将人脸置于取景框内</p>
-        <p>3.等待几秒钟系统会为你创建人脸档案</p>
+    19
+    <div id="content_wrap">
+        <div id="notice_wrap">
+            <p>1.点击开始人脸建档，允许调用摄像头</p>
+            <p>2.将人脸置于取景框内</p>
+            <p>3.等待几秒钟系统会为你创建人脸档案</p>
+        </div>
+        <!-- <div></div> -->
+        <div id="tools_wrap">
+            <button id="open_camera_button">开始人脸建档</button>
+            <!-- <button id="stop_camera_button">停止人脸建档</button> -->
+            <!-- <button id="record_video_button">录制视频</button> -->
+            <!-- <button id="capture_video_button">截图</button> -->
+        </div>
+        
+        <div id="camera_area">
+            <video id="camera_video" autoplay="" muted="" playsinline="true" webkit-playsinline="true"></video>
+        </div>
+        <div id="img_priview_wrap">
+        
+        </div>
     </div>
-    <!-- <div></div> -->
-    <div id="tools_wrap">
-        <button id="open_camera_button">开始人脸建档</button>
-        <!-- <button id="stop_camera_button">停止人脸建档</button> -->
-        <!-- <button id="record_video_button">录制视频</button> -->
-        <!-- <button id="capture_video_button">截图</button> -->
-    </div>
-
-    <div id="camera_area">
-        <video id="camera_video" autoplay="" muted="" playsinline="true" webkit-playsinline="true"></video>
-    </div>
-    <div id="img_priview_wrap">
-
-    </div>
+   
     <script type='text/javascript'>
             var localVideo = document.getElementById("camera_video");
             // var localCanvas = document.getElementById("face_area");
