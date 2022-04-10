@@ -103,11 +103,21 @@
             overflow: hidden;
             background-color: rgb(187, 212, 245);
         }
+
+        #img_priview_wrap{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        #img_priview_wrap img{
+            width:30%;
+        }
     </style>
 </head>
 
 <body>
-    1
+    2
     <div id="tools_wrap">
         <button id="open_camera_button">开始人脸建档</button>
         <button id="stop_camera_button">停止人脸建档</button>
@@ -121,9 +131,6 @@
     <div id="img_priview_wrap">
 
     </div>
-    <!-- <canvas id="face_area" width="320" height="480"></canvas> -->
-    <!-- <script type="text/javascript" src="/js/ccv.js"></script> -->
-    <!-- <script type="text/javascript" src="/js/face.js"></script> -->
     <script type='text/javascript'>
             var localVideo = document.getElementById("camera_video");
             // var localCanvas = document.getElementById("face_area");
