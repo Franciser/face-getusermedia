@@ -113,7 +113,7 @@
 </head>
 
 <body>
-    3
+    4
     <div id="notice_wrap">
         <p>1.点击开始人脸建档，允许调用摄像头</p>
         <p>2.将人脸置于取景框内</p>
@@ -144,23 +144,23 @@
             var mediaRecorder = null;
             var cutImgArr = [];
             var cutTimer = null;
-            document.getElementById('stop_camera_button').addEventListener('click', stopStreamFn)
+            // document.getElementById('stop_camera_button').addEventListener('click', stopStreamFn)
 
-            document.getElementById('record_video_button').addEventListener('click', function () {
-                mediaRecorder.stop();
-                mediaRecorder.start(1000);
-            });
+            // document.getElementById('record_video_button').addEventListener('click', function () {
+            //     mediaRecorder.stop();
+            //     mediaRecorder.start(1000);
+            // });
 
-            document.getElementById('capture_video_button').addEventListener('click', function () {
-                let canvas = document.createElement("canvas");
-                canvas.width = localVideo.videoWidth;
-                canvas.height = localVideo.videoHeight;
-                canvas.getContext('2d').drawImage(localVideo, 0, 0, canvas.width, canvas.height);
+            // document.getElementById('capture_video_button').addEventListener('click', function () {
+            //     let canvas = document.createElement("canvas");
+            //     canvas.width = localVideo.videoWidth;
+            //     canvas.height = localVideo.videoHeight;
+            //     canvas.getContext('2d').drawImage(localVideo, 0, 0, canvas.width, canvas.height);
 
-                let img = document.createElement("img");
-                img.src = canvas.toDataURL("image/png");
-                document.getElementById("img_priview_wrap").appendChild(img);
-            });
+            //     let img = document.createElement("img");
+            //     img.src = canvas.toDataURL("image/png");
+            //     document.getElementById("img_priview_wrap").appendChild(img);
+            // });
 
             function showCutImgFn() {
                 for (let i = 0; i < cutImgArr.length; i++) {
