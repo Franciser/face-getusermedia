@@ -130,7 +130,7 @@
 </head>
 
 <body>
-    24
+    25
     <div id="content_wrap">
         <div id="notice_wrap">
             <p>1.点击开始人脸建档，允许调用摄像头</p>
@@ -158,10 +158,13 @@
         console.log(document.documentElement.clientWidth, document.documentElement.clientHeight)
         var viewWidth= document.documentElement.clientWidth;
         var viewHeight= document.documentElement.clientHeight;
+        var customVideoAreaWidth;
         if(viewHeight>viewHeight){
             cameraArea.style.width=cameraArea.style.height= (viewHeight*7)/10+'px';
+            customVideoAreaWidth= (viewHeight * 7) / 10
         }else{
             cameraArea.style.width = cameraArea.style.height = (viewWidth * 7) / 10 + 'px';
+            customVideoAreaWidth = (viewWidth * 7) / 10
         }
 
             var localVideo = document.getElementById("camera_video");
@@ -264,9 +267,9 @@
                         localVideo.play();
                         // console.log(localVideo.videoWidth, localVideo.videoHeight, document.body.clientWidth)
                         if(localVideo.videoWidth> localVideo.videoHeight){
-                            localVideo.style.height= ((viewWidth*7)/10)+'px';
+                            localVideo.style.height= customVideoAreaWidth+'px';
                         }else{
-                            localVideo.style.width = ((viewHeight*7)/10)+'px';
+                            localVideo.style.width = customVideoAreaWidth+'px';
                         }
                     }, 100)
 
