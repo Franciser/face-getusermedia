@@ -88,7 +88,9 @@
 
 
         #camera_area {
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 70vw;
             height: 70vw;
             border-radius: 50%;
@@ -98,11 +100,14 @@
         }
 
         #camera_video{
-            position: absolute;
+
+            /* position: absolute;
             width:100vw;
             top:50%;
             left:50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%); */
+            width:100vw;
+
         }
 
        
@@ -120,7 +125,7 @@
 </head>
 
 <body>
-    6
+    7
     <div id="notice_wrap">
         <p>1.点击开始人脸建档，允许调用摄像头</p>
         <p>2.将人脸置于取景框内</p>
