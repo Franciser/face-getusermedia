@@ -134,7 +134,7 @@
 </head>
 
 <body>
-    19
+    20
     <div id="content_wrap">
         <div id="notice_wrap">
             <p>1.点击开始人脸建档，允许调用摄像头</p>
@@ -255,11 +255,11 @@
                     // localVideo.onplay = poll;
                     setTimeout(() => {
                         localVideo.play();
-                        console.log(localVideo.videoWidth, localVideo.videoHeight, document.body.clientWidth)
+                        // console.log(localVideo.videoWidth, localVideo.videoHeight, document.body.clientWidth)
                         if(localVideo.videoWidth> localVideo.videoHeight){
-                            localVideo.style.height= document.body.clientWidth+'px';
+                            localVideo.style.height= ((document.body.clientWidth*7)/10)+'px';
                         }else{
-                            localVideo.style.width = document.body.clientWidth+'px';
+                            localVideo.style.width = ((document.body.clientWidth*7)/10)+'px';
                         }
                     }, 100)
 
