@@ -131,7 +131,7 @@
 </head>
 
 <body>
-    26
+    27
     <div id="content_wrap">
         <div id="notice_wrap">
             <p>1.点击开始人脸建档，允许调用摄像头</p>
@@ -216,10 +216,12 @@
                     clearInterval(cutTimer)
                     //展示截图
                     showCutImgFn();
-                    alert('创建人脸档案失败！')
-                    stopStreamFn();
-                    cutImgArr=[];
-                    document.getElementById("img_priview_wrap").innerHTML='';
+                    setTimeout(()=>{
+                        alert('创建人脸档案失败！')
+                        stopStreamFn();
+                        cutImgArr = [];
+                        document.getElementById("img_priview_wrap").innerHTML = '';
+                    },1000)
                 }
 
                 // let img = document.createElement("img");
