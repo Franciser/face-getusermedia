@@ -116,7 +116,10 @@
 
         }
 
-       
+       #seconds_notice_wrap{
+           text-align: center;
+           color:rgb(225, 20, 20);
+       }
 
         #img_priview_wrap{
             display: flex;
@@ -149,6 +152,9 @@
         <div id="camera_area">
             <video id="camera_video" autoplay="" muted="" playsinline="true" webkit-playsinline="true"></video>
         </div>
+        <div id="seconds_notice_wrap">
+            <h3 id="seconds_number">5秒</h3>
+        </div>
         <div id="img_priview_wrap">
         
         </div>
@@ -178,6 +184,9 @@
             var mediaRecorder = null;
             var cutImgArr = [];
             var cutTimer = null;
+
+            var countDownTimer=null;
+            var countDownSeconds=5;
             // document.getElementById('stop_camera_button').addEventListener('click', stopStreamFn)
 
             // document.getElementById('record_video_button').addEventListener('click', function () {
@@ -204,6 +213,24 @@
                     document.getElementById("img_priview_wrap").appendChild(img);
                 }
             }
+
+            function countDownFn(){
+                
+                countDownTimer=setInterval(setSecondsFn,1000)
+            };
+
+            function setSecondsFn(){
+                var secondsNumber = document.getElementById('seconds_number')
+                if(countDownSeconds==1){
+                    clearInterval(countDownTimer)
+                }else{
+                    countDownSeconds--;
+                    secondsNumber.innerText = countDownSeconds + '秒';
+                }
+               
+            }
+
+
 
             function cutVideoImgFn() {
                 let canvas = document.createElement("canvas");
@@ -279,7 +306,8 @@
                             localVideo.style.width = customVideoAreaWidth+'px';
                         }
                     }, 100)
-
+                    //倒计时
+                    setSecondsFn();
                     //每隔一秒就截图
                     clearInterval(cutTimer);
                     cutTimer = setInterval(cutVideoImgFn, 1000)
