@@ -8,17 +8,20 @@
     <title>face-getusermedia</title>
     <link rel='stylesheet' href=''>
     <style>
-        html,body{
-            margin:0;
-            padding:0;
+        html,
+        body {
+            margin: 0;
+            padding: 0;
         }
-        #content_wrap{
-            padding:10px;
+
+        #content_wrap {
+            padding: 10px;
         }
-        
-        #notice_wrap{
-            margin-bottom:10px;
+
+        #notice_wrap {
+            margin-bottom: 10px;
         }
+
         /* canvas {
             display: block;
             position: absolute;
@@ -26,10 +29,10 @@
             height: 100%;
         } */
 
-       
+
         #tools_wrap {
             display: flex;
-            margin:20px 0;
+            margin: 20px 0;
         }
 
         #open_camera_button {
@@ -40,12 +43,12 @@
             color: #fff;
             cursor: pointer;
             border-radius: 5px;
-            padding:8px 10px;
+            padding: 8px 10px;
             margin: 0 auto;
             font-size: 14px;
         }
 
-        #open_camera_button:active{
+        #open_camera_button:active {
             background-color: rgb(40, 59, 206);
         }
 
@@ -92,7 +95,7 @@
         } */
 
 
-        #camera_area{
+        #camera_area {
             position: relative;
             display: flex;
             justify-content: center;
@@ -101,11 +104,11 @@
             /* height: 70vw; */
             border-radius: 50% !important;
             margin: 0 auto;
-            background-color: rgb(0, 0, 0); 
+            background-color: rgb(0, 0, 0);
             overflow: hidden;
         }
 
-        #camera_video{
+        #camera_video {
             display: block;
             /* position: absolute; */
             /* width:100vw; */
@@ -116,20 +119,20 @@
 
         }
 
-       #seconds_notice_wrap{
-           text-align: center;
-           color:rgb(225, 20, 20);
-       }
+        #seconds_notice_wrap {
+            text-align: center;
+            color: rgb(225, 20, 20);
+        }
 
-        #img_priview_wrap{
+        #img_priview_wrap {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            margin-top:5px;
+            margin-top: 5px;
         }
 
-        #img_priview_wrap img{
-            width:30%;
+        #img_priview_wrap img {
+            width: 30%;
         }
     </style>
 </head>
@@ -148,282 +151,299 @@
             <!-- <button id="record_video_button">录制视频</button> -->
             <!-- <button id="capture_video_button">截图</button> -->
         </div>
-        
+
         <div id="camera_area">
             <video id="camera_video" autoplay="" muted="" playsinline="true" webkit-playsinline="true"></video>
         </div>
         <div id="seconds_notice_wrap">
-            <h3 id="seconds_number">5秒</h3>
+            <h3 id="seconds_number"></h3>
         </div>
         <div id="img_priview_wrap">
-        
+
         </div>
     </div>
-   
+
     <script type='text/javascript'>
-        var cameraArea=document.getElementById('camera_area');
+        var cameraArea = document.getElementById('camera_area');
         // console.log(document.documentElement.clientWidth, document.documentElement.clientHeight)
-        var viewWidth= document.documentElement.clientWidth;
-        var viewHeight= document.documentElement.clientHeight;
+        var viewWidth = document.documentElement.clientWidth;
+        var viewHeight = document.documentElement.clientHeight;
         var customVideoAreaWidth;
-        if(viewHeight>viewHeight){
-            cameraArea.style.width=cameraArea.style.height= (viewHeight*7)/10+'px';
-            customVideoAreaWidth= (viewHeight * 7) / 10
-        }else{
+        if (viewHeight > viewHeight) {
+            cameraArea.style.width = cameraArea.style.height = (viewHeight * 7) / 10 + 'px';
+            customVideoAreaWidth = (viewHeight * 7) / 10
+        } else {
             cameraArea.style.width = cameraArea.style.height = (viewWidth * 7) / 10 + 'px';
             customVideoAreaWidth = (viewWidth * 7) / 10
         }
 
-            var localVideo = document.getElementById("camera_video");
-            // var localCanvas = document.getElementById("face_area");
-            // var context = localCanvas.getContext('2d');
-            var customURL = window.URL || window.webkitURL;
-            var localStream = null;
-            var chunks = [];
-            var recorderFile = null;
-            var mediaRecorder = null;
-            var cutImgArr = [];
-            var cutTimer = null;
+        var localVideo = document.getElementById("camera_video");
+        // var localCanvas = document.getElementById("face_area");
+        // var context = localCanvas.getContext('2d');
+        var customURL = window.URL || window.webkitURL;
+        var localStream = null;
+        var chunks = [];
+        var recorderFile = null;
+        var mediaRecorder = null;
+        var cutImgArr = [];
+        var cutTimer = null;
 
-            var countDownTimer=null;
-            var countDownSeconds=5;
-            // document.getElementById('stop_camera_button').addEventListener('click', stopStreamFn)
+        var countDownTimer = null;
+        var countDownSeconds = 5;
+        // document.getElementById('stop_camera_button').addEventListener('click', stopStreamFn)
 
-            // document.getElementById('record_video_button').addEventListener('click', function () {
-            //     mediaRecorder.stop();
-            //     mediaRecorder.start(1000);
-            // });
+        // document.getElementById('record_video_button').addEventListener('click', function () {
+        //     mediaRecorder.stop();
+        //     mediaRecorder.start(1000);
+        // });
 
-            // document.getElementById('capture_video_button').addEventListener('click', function () {
-            //     let canvas = document.createElement("canvas");
-            //     canvas.width = localVideo.videoWidth;
-            //     canvas.height = localVideo.videoHeight;
-            //     canvas.getContext('2d').drawImage(localVideo, 0, 0, canvas.width, canvas.height);
+        // document.getElementById('capture_video_button').addEventListener('click', function () {
+        //     let canvas = document.createElement("canvas");
+        //     canvas.width = localVideo.videoWidth;
+        //     canvas.height = localVideo.videoHeight;
+        //     canvas.getContext('2d').drawImage(localVideo, 0, 0, canvas.width, canvas.height);
 
-            //     let img = document.createElement("img");
-            //     img.src = canvas.toDataURL("image/png");
-            //     document.getElementById("img_priview_wrap").appendChild(img);
-            // });
-            document.getElementById("open_camera_button").addEventListener('click', initialize);
+        //     let img = document.createElement("img");
+        //     img.src = canvas.toDataURL("image/png");
+        //     document.getElementById("img_priview_wrap").appendChild(img);
+        // });
+        document.getElementById("open_camera_button").addEventListener('click', initialize);
 
-            function showCutImgFn() {
-                for (let i = 0; i < cutImgArr.length; i++) {
-                    let img = document.createElement("img");
-                    img.src = cutImgArr[i];
-                    document.getElementById("img_priview_wrap").appendChild(img);
+        function showCutImgFn() {
+            for (let i = 0; i < cutImgArr.length; i++) {
+                let img = document.createElement("img");
+                img.src = cutImgArr[i];
+                document.getElementById("img_priview_wrap").appendChild(img);
+            }
+        }
+
+        // function countDownFn() {
+
+        //     countDownTimer = setInterval(setSecondsFn, 1000)
+        // };
+
+        function setSecondsFn() {
+            // console.log('kkk',countDownSeconds)
+
+            var secondsNumber = document.getElementById('seconds_number')
+            if (countDownSeconds === 1) {
+                clearInterval(countDownTimer)
+                clearInterval(cutTimer)
+                countDownSeconds=5;
+                //展示截图
+                showCutImgFn();
+                setTimeout(() => {
+                    alert('创建人脸档案失败！')
+                    stopStreamFn();
+                    cutImgArr = [];
+                    document.getElementById("img_priview_wrap").innerHTML = '';
+                    secondsNumber.innerText=''
+                }, 1000)
+            } else {
+                countDownSeconds--;
+                secondsNumber.innerText = countDownSeconds + '秒';
+            }
+
+        }
+
+
+
+        function cutVideoImgFn() {
+            let canvas = document.createElement("canvas");
+            canvas.width = localVideo.videoWidth;
+            canvas.height = localVideo.videoHeight;
+            canvas.getContext('2d').drawImage(localVideo, 0, 0, canvas.width, canvas.height);
+            if (cutImgArr.length < 3) {
+                cutImgArr.push(canvas.toDataURL("image/png"))
+            } else {
+                // clearInterval(cutTimer)
+                // clearInterval(countDownTimer);
+                // //展示截图
+                // showCutImgFn();
+                // setTimeout(() => {
+                //     alert('创建人脸档案失败！')
+                //     stopStreamFn();
+                //     cutImgArr = [];
+                //     document.getElementById("img_priview_wrap").innerHTML = '';
+                // }, 1000)
+            }
+
+            // let img = document.createElement("img");
+            // console.log(canvas.toDataURL("image/png"))
+            // img.src = canvas.toDataURL("image/png")
+            // document.getElementById("img_priview_wrap").appendChild(img);
+        }
+
+        function getCurrentDate() {
+            var now = new Date();
+            var year = now.getFullYear(); //得到年份
+            var month = now.getMonth();//得到月份
+            var date = now.getDate();//得到日期
+            var day = now.getDay();//得到周几
+            var hour = now.getHours();//得到小时
+            var minu = now.getMinutes();//得到分钟
+            var sec = now.getSeconds();//得到秒
+            month = month + 1;
+            if (month < 10) month = "0" + month;
+            if (date < 10) date = "0" + date;
+            if (hour < 10) hour = "0" + hour;
+            if (minu < 10) minu = "0" + minu;
+            if (sec < 10) sec = "0" + sec;
+            var time = year + "-" + month + "-" + date + "-" + hour + "-" + minu + "-" + sec;
+            return time;
+        }
+
+        function stopStreamFn() {
+            localStream.stop();
+            //停止截图
+            clearInterval(cutTimer);
+            clearInterval(countDownTimer);
+        }
+
+        function mediaSuccessFn(stream) {
+            if ("srcObject" in localVideo) {
+                if (!stream.stop && stream.getTracks) {
+                    stream.stop = function () {
+                        this.getTracks().forEach(function (track) {
+                            track.stop();
+                        });
+                    };
                 }
-            }
-
-            function countDownFn(){
-                
-                countDownTimer=setInterval(setSecondsFn,1000)
-            };
-
-            function setSecondsFn(){
-                var secondsNumber = document.getElementById('seconds_number')
-                if(countDownSeconds==1){
-                    clearInterval(countDownTimer)
-                }else{
-                    countDownSeconds--;
-                    secondsNumber.innerText = countDownSeconds + '秒';
-                }
-               
-            }
+                localStream = stream;
+                localVideo.srcObject = stream;
 
 
 
-            function cutVideoImgFn() {
-                let canvas = document.createElement("canvas");
-                canvas.width = localVideo.videoWidth;
-                canvas.height = localVideo.videoHeight;
-                canvas.getContext('2d').drawImage(localVideo, 0, 0, canvas.width, canvas.height);
-                if (cutImgArr.length < 3) {
-                    cutImgArr.push(canvas.toDataURL("image/png"))
-                } else {
-                    clearInterval(cutTimer)
-                    //展示截图
-                    showCutImgFn();
-                    setTimeout(()=>{
-                        alert('创建人脸档案失败！')
-                        stopStreamFn();
-                        cutImgArr = [];
-                        document.getElementById("img_priview_wrap").innerHTML = '';
-                    },1000)
-                }
-
-                // let img = document.createElement("img");
-                // console.log(canvas.toDataURL("image/png"))
-                // img.src = canvas.toDataURL("image/png")
-                // document.getElementById("img_priview_wrap").appendChild(img);
-            }
-
-            function getCurrentDate() {
-                var now = new Date();
-                var year = now.getFullYear(); //得到年份
-                var month = now.getMonth();//得到月份
-                var date = now.getDate();//得到日期
-                var day = now.getDay();//得到周几
-                var hour = now.getHours();//得到小时
-                var minu = now.getMinutes();//得到分钟
-                var sec = now.getSeconds();//得到秒
-                month = month + 1;
-                if (month < 10) month = "0" + month;
-                if (date < 10) date = "0" + date;
-                if (hour < 10) hour = "0" + hour;
-                if (minu < 10) minu = "0" + minu;
-                if (sec < 10) sec = "0" + sec;
-                var time = year + "-" + month + "-" + date + "-" + hour + "-" + minu + "-" + sec;
-                return time;
-            }
-
-            function stopStreamFn() {
-                localStream.stop();
-                //停止截图
+                // localVideo.onplay = poll;
+                setTimeout(() => {
+                    localVideo.play();
+                    // console.log(localVideo.videoWidth, localVideo.videoHeight, document.body.clientWidth)
+                    if (localVideo.videoWidth > localVideo.videoHeight) {
+                        localVideo.style.height = customVideoAreaWidth + 'px';
+                    } else {
+                        localVideo.style.width = customVideoAreaWidth + 'px';
+                    }
+                }, 100)
+                //倒计时
+                document.getElementById('seconds_number').innerText = '5秒'
+                clearInterval(countDownTimer);
+                countDownTimer = setInterval(setSecondsFn, 1000)
+                //每隔一秒就截图
                 clearInterval(cutTimer);
-            }
+                cutTimer = setInterval(cutVideoImgFn, 1000)
 
-            function mediaSuccessFn(stream) {
-                if ("srcObject" in localVideo) {
-                    if (!stream.stop && stream.getTracks) {
-                        stream.stop = function () {
-                            this.getTracks().forEach(function (track) {
-                                track.stop();
-                            });
-                        };
-                    }
-                    localStream = stream;
-                    localVideo.srcObject = stream;
-
-                    
-
-                    // localVideo.onplay = poll;
-                    setTimeout(() => {
-                        localVideo.play();
-                        // console.log(localVideo.videoWidth, localVideo.videoHeight, document.body.clientWidth)
-                        if(localVideo.videoWidth> localVideo.videoHeight){
-                            localVideo.style.height= customVideoAreaWidth+'px';
-                        }else{
-                            localVideo.style.width = customVideoAreaWidth+'px';
-                        }
-                    }, 100)
-                    //倒计时
-                    setSecondsFn();
-                    //每隔一秒就截图
-                    clearInterval(cutTimer);
-                    cutTimer = setInterval(cutVideoImgFn, 1000)
-
-                    mediaRecorder = new MediaRecorder(stream);
-                    mediaRecorder.ondataavailable = function (e) {
-                        chunks.push(e.data);
-                    }
-                    mediaRecorder.onstop = function (e) {
-                        recorderFile = new Blob(chunks, {
-                            'type': mediaRecorder.mimeType
-                        });
-                        chunks = [];
-                        let dateTime = getCurrentDate();
-                        var file = new File([recorderFile], 'video-' + dateTime + '.mp4', {
-                            type: 'video/mp4'
-                        });
-                        // console.log(file);
-                        var formData = new FormData();
-                        formData.append("file", file);
-                        // console.log(formData);
-                    };
-                    // mediaRecorder.start(1000);
-
-                } else {
-                    if (!stream.stop && stream.getTracks) {
-                        stream.stop = function () {
-                            this.getTracks().forEach(function (track) {
-                                track.stop();
-                            });
-                        };
-                    }
-                    localStream = stream;
-                    localVideo.src = customURL.createObjectURL(stream);
-                    // localVideo.onplay = poll;
-                    setTimeout(() => {
-                        localVideo.play();
-                    }, 100)
-                    mediaRecorder = new MediaRecorder(stream);
-                    mediaRecorder.ondataavailable = function (e) {
-                        chunks.push(e.data);
-                    }
-                    mediaRecorder.onstop = function (e) {
-                        recorderFile = new Blob(chunks, {
-                            'type': mediaRecorder.mimeType
-                        });
-                        chunks = [];
-                        let dateTime = getCurrentDate();
-                        var file = new File([recorderFile], 'video-' + dateTime + '.mp4', {
-                            type: 'video/mp4'
-                        });
-                        // console.log(file);
-                        var formData = new FormData();
-                        formData.append("file", file);
-                        // console.log(formData);
-                    };
-                    // mediaRecorder.start(1000);
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = function (e) {
+                    chunks.push(e.data);
                 }
-            };
+                mediaRecorder.onstop = function (e) {
+                    recorderFile = new Blob(chunks, {
+                        'type': mediaRecorder.mimeType
+                    });
+                    chunks = [];
+                    let dateTime = getCurrentDate();
+                    var file = new File([recorderFile], 'video-' + dateTime + '.mp4', {
+                        type: 'video/mp4'
+                    });
+                    // console.log(file);
+                    var formData = new FormData();
+                    formData.append("file", file);
+                    // console.log(formData);
+                };
+                // mediaRecorder.start(1000);
 
-            function mediaErrorFn(error) {
-                alert("Failed to get access to local media. Error code was " + error.code + ".");
-            }
-            function initialize() {
-                // try {
-                //     navigator.getUserMedia({
-                //         video: true
-                //     }, function (stream) {
-                //         localVideo.srcObject = stream;
-                //         localVideo.onplay = poll;
-                //     }, function (error) {
-                //         alert("Failed to get access to local media. Error code was " + error.code + ".");
-                //     });
-                // } catch (e) {
-                //     alert("getUserMedia error:", e);
-                // }
-
-                if (
-                    navigator.mediaDevices.getUserMedia ||
-                    navigator.getUserMedia ||
-                    navigator.webkitGetUserMedia ||
-                    navigator.mozGetUserMedia
-                ) {
-                    // alert('可以打开摄像头')
-                    if (navigator.mediaDevices.getUserMedia) {
-                        //最新的标准API
-                        navigator.mediaDevices
-                            .getUserMedia({ video: true })
-                            .then(mediaSuccessFn)
-                            .catch(mediaErrorFn);
-                    } else if (navigator.webkitGetUserMedia) {
-                        //webkit核心浏览器
-                        navigator.webkitGetUserMedia({ video: true },
-                            mediaSuccessFn,
-                            mediaErrorFn
-                        );
-                    } else if (navigator.mozGetUserMedia) {
-                        //firfox浏览器
-                        navigator.mozGetUserMedia({ video: true },
-                            mediaSuccessFn,
-                            mediaErrorFn
-                        );
-                    } else if (navigator.getUserMedia) {
-                        //旧版API
-                        navigator.getUserMedia({ video: true },
-                            mediaSuccessFn,
-                            mediaErrorFn
-                        );
-                    }
-                } else {
-                    alert("摄像头打开失败,请检查权限设置!")
+            } else {
+                if (!stream.stop && stream.getTracks) {
+                    stream.stop = function () {
+                        this.getTracks().forEach(function (track) {
+                            track.stop();
+                        });
+                    };
                 }
+                localStream = stream;
+                localVideo.src = customURL.createObjectURL(stream);
+                // localVideo.onplay = poll;
+                setTimeout(() => {
+                    localVideo.play();
+                }, 100)
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = function (e) {
+                    chunks.push(e.data);
+                }
+                mediaRecorder.onstop = function (e) {
+                    recorderFile = new Blob(chunks, {
+                        'type': mediaRecorder.mimeType
+                    });
+                    chunks = [];
+                    let dateTime = getCurrentDate();
+                    var file = new File([recorderFile], 'video-' + dateTime + '.mp4', {
+                        type: 'video/mp4'
+                    });
+                    // console.log(file);
+                    var formData = new FormData();
+                    formData.append("file", file);
+                    // console.log(formData);
+                };
+                // mediaRecorder.start(1000);
+            }
+        };
 
+        function mediaErrorFn(error) {
+            alert("Failed to get access to local media. Error code was " + error.code + ".");
+        }
+        function initialize() {
+            // try {
+            //     navigator.getUserMedia({
+            //         video: true
+            //     }, function (stream) {
+            //         localVideo.srcObject = stream;
+            //         localVideo.onplay = poll;
+            //     }, function (error) {
+            //         alert("Failed to get access to local media. Error code was " + error.code + ".");
+            //     });
+            // } catch (e) {
+            //     alert("getUserMedia error:", e);
+            // }
+
+            if (
+                navigator.mediaDevices.getUserMedia ||
+                navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia
+            ) {
+                // alert('可以打开摄像头')
+                if (navigator.mediaDevices.getUserMedia) {
+                    //最新的标准API
+                    navigator.mediaDevices
+                        .getUserMedia({ video: true })
+                        .then(mediaSuccessFn)
+                        .catch(mediaErrorFn);
+                } else if (navigator.webkitGetUserMedia) {
+                    //webkit核心浏览器
+                    navigator.webkitGetUserMedia({ video: true },
+                        mediaSuccessFn,
+                        mediaErrorFn
+                    );
+                } else if (navigator.mozGetUserMedia) {
+                    //firfox浏览器
+                    navigator.mozGetUserMedia({ video: true },
+                        mediaSuccessFn,
+                        mediaErrorFn
+                    );
+                } else if (navigator.getUserMedia) {
+                    //旧版API
+                    navigator.getUserMedia({ video: true },
+                        mediaSuccessFn,
+                        mediaErrorFn
+                    );
+                }
+            } else {
+                alert("摄像头打开失败,请检查权限设置!")
             }
 
-            
+        }
+
+
 
     </script>
 </body>
